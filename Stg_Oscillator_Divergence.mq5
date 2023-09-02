@@ -1,6 +1,6 @@
 /**
  * @file
- * Implements Oscillator strategy.
+ * Implements Oscillator Divergence strategy.
  */
 
 // Includes conditional compilation directives.
@@ -46,10 +46,10 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #include "Stg_Oscillator_Divergence.mqh"
 
 // Defines.
-#define ea_name "Strategy Oscillator"
+#define ea_name "Strategy Oscillator Divergence"
 #define ea_version "2.000"
-#define ea_desc "Strategy based on selected oscillator-type multi-valued indicators."
-#define ea_link "https://github.com/EA31337/Strategy-Oscillator"
+#define ea_desc "Strategy based on divergence signal on selected oscillator-type single-valued indicators."
+#define ea_link "https://github.com/EA31337/Strategy-Oscillator_Divergence"
 #define ea_author "EA31337 Ltd"
 
 // Properties.
@@ -75,7 +75,7 @@ int OnInit() {
   bool _result = true;
   EAParams ea_params(__FILE__, Log_Level);
   ea = new EA(ea_params);
-  _result &= ea.StrategyAdd<Stg_Oscillator>(Active_Tfs);
+  _result &= ea.StrategyAdd<Stg_Oscillator_Divergence>(Active_Tfs);
   return (_result ? INIT_SUCCEEDED : INIT_FAILED);
 }
 
