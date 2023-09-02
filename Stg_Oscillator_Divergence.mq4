@@ -6,8 +6,8 @@
 
 /**
  * @file
- * Implements Oscillator strategy.
+ * Implements Oscillator Divergence strategy.
  */
 
 // Includes the main code.
-#include "Stg_Oscillator.mq5"
+#include "Stg_Oscillator_Divergence.mq5"
