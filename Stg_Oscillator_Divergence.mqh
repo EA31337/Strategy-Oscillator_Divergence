@@ -37,7 +37,7 @@ INPUT ENUM_STG_OSCILLATOR_DIVERGENCE_TYPE Oscillator_Divergence_Type =
     STG_OSCILLATOR_DIVERGENCE_TYPE_CCI;  // Oscillator Divergence type
 INPUT_GROUP("Oscillator Divergence strategy: strategy params");
 INPUT float Oscillator_Divergence_LotSize = 0;                // Lot size
-INPUT int Oscillator_Divergence_SignalOpenMethod = 6;         // Signal open method
+INPUT int Oscillator_Divergence_SignalOpenMethod = 2;         // Signal open method
 INPUT float Oscillator_Divergence_SignalOpenLevel = 0;        // Signal open level
 INPUT int Oscillator_Divergence_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int Oscillator_Divergence_SignalOpenFilterTime = 3;     // Signal open filter time (0-31)
@@ -553,37 +553,87 @@ class Stg_Oscillator_Divergence : public Strategy {
   }
 
   /**
+   * Returns the highest bar's index (shift).
+   */
+  template <typename T>
+  int GetIndiHighest(int count = WHOLE_ARRAY, int start_bar = 0) {
+    IndicatorBase *_indi = GetIndicator(::Oscillator_Divergence_Type);
+    int max_idx = -1;
+    double max = -DBL_MAX;
+    int last_bar = count == WHOLE_ARRAY ? (int)(_indi.GetBarShift(_indi.GetLastBarTime())) : (start_bar + count - 1);
+
+    for (int shift = start_bar; shift <= last_bar; ++shift) {
+      double value = _indi.GetEntry(shift).GetMax<T>(_indi.GetModeCount());
+      if (value > max) {
+        max = value;
+        max_idx = shift;
+      }
+    }
+
+    return max_idx;
+  }
+
+  /**
+   * Returns the lowest bar's index (shift).
+   */
+  template <typename T>
+  int GetIndiLowest(int count = WHOLE_ARRAY, int start_bar = 0) {
+    IndicatorBase *_indi = GetIndicator(::Oscillator_Divergence_Type);
+    int min_idx = -1;
+    double min = DBL_MAX;
+    int last_bar = count == WHOLE_ARRAY ? (int)(_indi.GetBarShift(_indi.GetLastBarTime())) : (start_bar + count - 1);
+
+    for (int shift = start_bar; shift <= last_bar; ++shift) {
+      double value = _indi.GetEntry(shift).GetMin<T>(_indi.GetModeCount());
+      if (value < min) {
+        min = value;
+        min_idx = shift;
+      }
+    }
+
+    return min_idx;
+  }
+
+  /**
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method, float _level = 0.0f, int _shift = 0) {
     IndicatorBase *_indi = GetIndicator(::Oscillator_Divergence_Type);
+    Chart *_chart = trade.GetChart();
     // uint _ishift = _indi.GetShift();
     bool _result = Oscillator_Divergence_Type != STG_OSCILLATOR_DIVERGENCE_TYPE_0_NONE && IsValidEntry(_indi, _shift);
     if (!_result) {
       // Returns false when indicator data is not valid.
       return false;
     }
+    uint _ishift_high = GetIndiHighest<float>(4, _shift);
+    uint _ishift_low = GetIndiLowest<float>(4, _shift);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         // Buy signal.
-        _result &= _indi.IsIncreasing(1, 0, _shift);
+        _result &= (_indi[_shift][0] > _indi[_ishift_low][0] && _chart.GetOpen(_shift) < _chart.GetOpen(_ishift_low)) ||
+                   (_indi[_shift][0] < _indi[_ishift_low][0] && _chart.GetOpen(_shift) > _chart.GetOpen(_ishift_low));
         _result &= _indi.IsIncByPct(_level, 0, _shift, 2);
         if (_result && _method != 0) {
-          if (METHOD(_method, 0)) _result &= _indi.IsDecreasing(1, 0, _shift + 1);
-          if (METHOD(_method, 1)) _result &= _indi.IsIncreasing(4, 0, _shift + 3);
-          if (METHOD(_method, 2))
+          if (METHOD(_method, 0)) _result &= _indi.IsIncreasing(1, 0, _shift);
+          if (METHOD(_method, 1)) _result &= _indi.IsDecreasing(1, 0, _shift + 1);
+          if (METHOD(_method, 2)) _result &= _indi.IsIncreasing(4, 0, _shift + 3);
+          if (METHOD(_method, 3))
             _result &= fmax4(_indi[_shift][0], _indi[_shift + 1][0], _indi[_shift + 2][0], _indi[_shift + 3][0]) ==
                        _indi[_shift][0];
         }
         break;
       case ORDER_TYPE_SELL:
         // Sell signal.
-        _result &= _indi.IsDecreasing(1, 0, _shift);
+        _result &=
+            (_indi[_shift][0] > _indi[_ishift_high][0] && _chart.GetOpen(_shift) < _chart.GetOpen(_ishift_high)) ||
+            (_indi[_shift][0] < _indi[_ishift_high][0] && _chart.GetOpen(_shift) > _chart.GetOpen(_ishift_high));
         _result &= _indi.IsDecByPct(_level, 0, _shift, 2);
         if (_result && _method != 0) {
-          if (METHOD(_method, 0)) _result &= _indi.IsIncreasing(1, 0, _shift + 1);
-          if (METHOD(_method, 1)) _result &= _indi.IsDecreasing(4, 0, _shift + 3);
-          if (METHOD(_method, 2))
+          if (METHOD(_method, 0)) _result &= _indi.IsDecreasing(1, 0, _shift);
+          if (METHOD(_method, 1)) _result &= _indi.IsIncreasing(1, 0, _shift + 1);
+          if (METHOD(_method, 2)) _result &= _indi.IsDecreasing(4, 0, _shift + 3);
+          if (METHOD(_method, 3))
             _result &= fmin4(_indi[_shift][0], _indi[_shift + 1][0], _indi[_shift + 2][0], _indi[_shift + 3][0]) ==
                        _indi[_shift][0];
         }
