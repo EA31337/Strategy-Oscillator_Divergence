@@ -181,11 +181,11 @@ struct Stg_Oscillator_Divergence_Params_Defaults : StgParams {
                   ::Oscillator_Divergence_SignalCloseLevel, ::Oscillator_Divergence_PriceStopMethod,
                   ::Oscillator_Divergence_PriceStopLevel, ::Oscillator_Divergence_TickFilterMethod,
                   ::Oscillator_Divergence_MaxSpread, ::Oscillator_Divergence_Shift) {
-    Set(STRAT_PARAM_LS, Oscillator_Divergence_LotSize);
-    Set(STRAT_PARAM_OCL, Oscillator_Divergence_OrderCloseLoss);
-    Set(STRAT_PARAM_OCP, Oscillator_Divergence_OrderCloseProfit);
-    Set(STRAT_PARAM_OCT, Oscillator_Divergence_OrderCloseTime);
-    Set(STRAT_PARAM_SOFT, Oscillator_Divergence_SignalOpenFilterTime);
+    Set(STRAT_PARAM_LS, ::Oscillator_Divergence_LotSize);
+    Set(STRAT_PARAM_OCL, ::Oscillator_Divergence_OrderCloseLoss);
+    Set(STRAT_PARAM_OCP, ::Oscillator_Divergence_OrderCloseProfit);
+    Set(STRAT_PARAM_OCT, ::Oscillator_Divergence_OrderCloseTime);
+    Set(STRAT_PARAM_SOFT, ::Oscillator_Divergence_SignalOpenFilterTime);
   }
 };
 
@@ -201,7 +201,7 @@ class Stg_Oscillator_Divergence : public Strategy {
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
-    Strategy *_strat = new Stg_Oscillator_Divergence(_stg_params, _tparams, _cparams, "Oscillator");
+    Strategy *_strat = new Stg_Oscillator_Divergence(_stg_params, _tparams, _cparams, "Oscillator Divergence");
     return _strat;
   }
 
@@ -210,7 +210,7 @@ class Stg_Oscillator_Divergence : public Strategy {
    */
   bool IsValidEntry(IndicatorBase *_indi, int _shift = 0) {
     bool _result = true;
-    switch (Oscillator_Divergence_Type) {
+    switch (::Oscillator_Divergence_Type) {
       case STG_OSCILLATOR_DIVERGENCE_TYPE_AC:
         _result &= dynamic_cast<Indi_AC *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) &&
                    dynamic_cast<Indi_AC *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
