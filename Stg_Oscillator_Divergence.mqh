@@ -208,7 +208,7 @@ class Stg_Oscillator_Divergence : public Strategy {
   /**
    * Validate soscillators's entry.
    */
-  bool IsValidEntry(IndicatorBase *_indi, int _shift = 0) {
+  bool IsValidEntry(IndicatorData *_indi, int _shift = 0) {
     bool _result = true;
     switch (Oscillator_Divergence_Type) {
       case STG_OSCILLATOR_DIVERGENCE_TYPE_AC:
@@ -322,33 +322,29 @@ class Stg_Oscillator_Divergence : public Strategy {
       case STG_OSCILLATOR_DIVERGENCE_TYPE_AC:  // AC
       {
         IndiACParams _indi_params(::Oscillator_Divergence_Indi_AC_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_AC_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_AC(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_AC(_indi_params, ::Oscillator_Divergence_Indi_AC_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_AD:  // AD
       {
         IndiADParams _indi_params(::Oscillator_Divergence_Indi_AD_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_AD_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_AD(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_AD(_indi_params, ::Oscillator_Divergence_Indi_AD_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_AO:  // AO
       {
         IndiAOParams _indi_params(::Oscillator_Divergence_Indi_Awesome_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_Awesome_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_AO(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_AO(_indi_params, ::Oscillator_Divergence_Indi_Awesome_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_ATR:  // ATR
       {
         IndiATRParams _indi_params(::Oscillator_Divergence_Indi_ATR_Period, ::Oscillator_Divergence_Indi_ATR_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_ATR_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_ATR(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_ATR(_indi_params, ::Oscillator_Divergence_Indi_ATR_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_BEARS:  // Bears
@@ -356,9 +352,8 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiBearsPowerParams _indi_params(::Oscillator_Divergence_Indi_BearsPower_Period,
                                           ::Oscillator_Divergence_Indi_BearsPower_Applied_Price,
                                           ::Oscillator_Divergence_Indi_BearsPower_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_BearsPower_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_BearsPower(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_BearsPower(_indi_params, ::Oscillator_Divergence_Indi_BearsPower_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_BULLS:  // Bulls
@@ -366,17 +361,15 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiBullsPowerParams _indi_params(::Oscillator_Divergence_Indi_BullsPower_Period,
                                           ::Oscillator_Divergence_Indi_BullsPower_Applied_Price,
                                           ::Oscillator_Divergence_Indi_BullsPower_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_BullsPower_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_BullsPower(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_BullsPower(_indi_params, ::Oscillator_Divergence_Indi_BullsPower_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_BWMFI:  // BWMFI
       {
         IndiBWIndiMFIParams _indi_params(::Oscillator_Divergence_Indi_BWMFI_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_BWMFI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_BWMFI(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_BWMFI(_indi_params, ::Oscillator_Divergence_Indi_BWMFI_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_CCI:  // CCI
@@ -384,9 +377,8 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiCCIParams _indi_params(::Oscillator_Divergence_Indi_CCI_Period,
                                    ::Oscillator_Divergence_Indi_CCI_Applied_Price,
                                    ::Oscillator_Divergence_Indi_CCI_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_CCI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_CCI(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_CCI(_indi_params, ::Oscillator_Divergence_Indi_CCI_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_CHO:  // Chaikin (CHO)
@@ -395,9 +387,8 @@ class Stg_Oscillator_Divergence : public Strategy {
             ::Oscillator_Divergence_Indi_CHO_InpFastMA, ::Oscillator_Divergence_Indi_CHO_InpSlowMA,
             ::Oscillator_Divergence_Indi_CHO_InpSmoothMethod, ::Oscillator_Divergence_Indi_CHO_InpVolumeType,
             ::Oscillator_Divergence_Indi_CHO_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_CHO_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_CHO(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_CHO(_indi_params, ::Oscillator_Divergence_Indi_CHO_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_CHV:  // Chaikin Volatility (CHV)
@@ -405,18 +396,16 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiCHVParams _indi_params(
             ::Oscillator_Divergence_Indi_CHV_Smooth_Period, ::Oscillator_Divergence_Indi_CHV_Period,
             ::Oscillator_Divergence_Indi_CHV_Smooth_Method, ::Oscillator_Divergence_Indi_CHV_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_CHV_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_CHV(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_CHV(_indi_params, ::Oscillator_Divergence_Indi_CHV_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_DEMARKER:  // DeMarker
       {
         IndiDeMarkerParams _indi_params(::Oscillator_Divergence_Indi_DeMarker_Period,
                                         ::Oscillator_Divergence_Indi_DeMarker_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_DeMarker_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_DeMarker(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_DeMarker(_indi_params, ::Oscillator_Divergence_Indi_DeMarker_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_MFI:  // MFI
@@ -424,9 +413,8 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiMFIParams _indi_params(::Oscillator_Divergence_Indi_MFI_MA_Period,
                                    ::Oscillator_Divergence_Indi_MFI_Applied_Volume,
                                    ::Oscillator_Divergence_Indi_MFI_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_MFI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_MFI(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_MFI(_indi_params, ::Oscillator_Divergence_Indi_MFI_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_MOM:  // MOM
@@ -434,27 +422,24 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiMomentumParams _indi_params(::Oscillator_Divergence_Indi_Momentum_Period,
                                         ::Oscillator_Divergence_Indi_Momentum_Applied_Price,
                                         ::Oscillator_Divergence_Indi_Momentum_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_Momentum_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_Momentum(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_Momentum(_indi_params, ::Oscillator_Divergence_Indi_Momentum_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_OBV:  // OBV
       {
         IndiOBVParams _indi_params(::Oscillator_Divergence_Indi_OBV_Applied_Price,
                                    ::Oscillator_Divergence_Indi_OBV_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_OBV_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_OBV(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_OBV(_indi_params, ::Oscillator_Divergence_Indi_OBV_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_PVT:  // PVT
       {
         IndiPriceVolumeTrendParams _indi_params(::Oscillator_Divergence_Indi_PVT_InpVolumeType,
                                                 ::Oscillator_Divergence_Indi_PVT_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_PVT_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_PriceVolumeTrend(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_PriceVolumeTrend(_indi_params, ::Oscillator_Divergence_Indi_PVT_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_ROC:  // ROC
@@ -462,9 +447,8 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiRateOfChangeParams _indi_params(::Oscillator_Divergence_Indi_ROC_Period,
                                             ::Oscillator_Divergence_Indi_ROC_Applied_Price,
                                             ::Oscillator_Divergence_Indi_ROC_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_ROC_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_RateOfChange(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_RateOfChange(_indi_params, ::Oscillator_Divergence_Indi_ROC_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_RSI:  // RSI
@@ -472,9 +456,8 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiRSIParams _indi_params(::Oscillator_Divergence_Indi_RSI_Period,
                                    ::Oscillator_Divergence_Indi_RSI_Applied_Price,
                                    ::Oscillator_Divergence_Indi_RSI_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_RSI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_RSI(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_RSI(_indi_params, ::Oscillator_Divergence_Indi_RSI_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_STDDEV:  // StdDev
@@ -483,9 +466,8 @@ class Stg_Oscillator_Divergence : public Strategy {
             ::Oscillator_Divergence_Indi_StdDev_MA_Period, ::Oscillator_Divergence_Indi_StdDev_MA_Shift,
             ::Oscillator_Divergence_Indi_StdDev_MA_Method, ::Oscillator_Divergence_Indi_StdDev_Applied_Price,
             ::Oscillator_Divergence_Indi_StdDev_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_StdDev_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_StdDev(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_StdDev(_indi_params, ::Oscillator_Divergence_Indi_StdDev_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_STOCH:  // Stochastic
@@ -494,9 +476,8 @@ class Stg_Oscillator_Divergence : public Strategy {
             ::Oscillator_Divergence_Indi_Stochastic_KPeriod, ::Oscillator_Divergence_Indi_Stochastic_DPeriod,
             ::Oscillator_Divergence_Indi_Stochastic_Slowing, ::Oscillator_Divergence_Indi_Stochastic_MA_Method,
             ::Oscillator_Divergence_Indi_Stochastic_Price_Field, ::Oscillator_Divergence_Indi_Stochastic_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_Stochastic_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_Stochastic(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_Stochastic(_indi_params, ::Oscillator_Divergence_Indi_Stochastic_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_TRIX:  // TRIX
@@ -504,9 +485,8 @@ class Stg_Oscillator_Divergence : public Strategy {
         IndiTRIXParams _indi_params(::Oscillator_Divergence_Indi_TRIX_InpPeriodEMA,
                                     ::Oscillator_Divergence_Indi_TRIX_Applied_Price,
                                     ::Oscillator_Divergence_Indi_TRIX_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_TRIX_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_TRIX(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_TRIX(_indi_params, ::Oscillator_Divergence_Indi_TRIX_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_UO:  // UO
@@ -516,34 +496,30 @@ class Stg_Oscillator_Divergence : public Strategy {
             ::Oscillator_Divergence_Indi_UO_InpSlowPeriod, ::Oscillator_Divergence_Indi_UO_InpFastK,
             ::Oscillator_Divergence_Indi_UO_InpMiddleK, ::Oscillator_Divergence_Indi_UO_InpSlowK,
             ::Oscillator_Divergence_Indi_UO_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_UO_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_UltimateOscillator(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_UltimateOscillator(_indi_params, ::Oscillator_Divergence_Indi_UO_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_WAD:  // Williams' AD
       {
         IndiWilliamsADParams _indi_params(::Oscillator_Divergence_Indi_WAD_Shift);
-        _indi_params.SetDataSourceType(Oscillator_Divergence_Indi_WAD_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_WilliamsAD(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_WilliamsAD(_indi_params, ::Oscillator_Divergence_Indi_WAD_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_WPR:  // WPR
       {
         IndiWPRParams _indi_params(::Oscillator_Divergence_Indi_WPR_Period, ::Oscillator_Divergence_Indi_WPR_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_WPR_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_WPR(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_WPR(_indi_params, ::Oscillator_Divergence_Indi_WPR_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_VOL:  // Volumes
       {
         IndiVolumesParams _indi_params(::Oscillator_Divergence_Indi_VOL_InpVolumeType,
                                        ::Oscillator_Divergence_Indi_VOL_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Divergence_Indi_VOL_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_Volumes(_indi_params), ::Oscillator_Divergence_Type);
+        SetIndicator(new Indi_Volumes(_indi_params, ::Oscillator_Divergence_Indi_VOL_SourceType), ::Oscillator_Divergence_Type);
         break;
       }
       case STG_OSCILLATOR_DIVERGENCE_TYPE_0_NONE:  // (None)
@@ -557,7 +533,7 @@ class Stg_Oscillator_Divergence : public Strategy {
    */
   template <typename T>
   int GetIndiHighest(int count = WHOLE_ARRAY, int start_bar = 0) {
-    IndicatorBase *_indi = GetIndicator(::Oscillator_Divergence_Type);
+    IndicatorData *_indi = GetIndicator(::Oscillator_Divergence_Type);
     int max_idx = -1;
     double max = -DBL_MAX;
     int last_bar = count == WHOLE_ARRAY ? (int)(_indi.GetBarShift(_indi.GetLastBarTime())) : (start_bar + count - 1);
@@ -578,7 +554,7 @@ class Stg_Oscillator_Divergence : public Strategy {
    */
   template <typename T>
   int GetIndiLowest(int count = WHOLE_ARRAY, int start_bar = 0) {
-    IndicatorBase *_indi = GetIndicator(::Oscillator_Divergence_Type);
+    IndicatorData *_indi = GetIndicator(::Oscillator_Divergence_Type);
     int min_idx = -1;
     double min = DBL_MAX;
     int last_bar = count == WHOLE_ARRAY ? (int)(_indi.GetBarShift(_indi.GetLastBarTime())) : (start_bar + count - 1);
@@ -598,7 +574,7 @@ class Stg_Oscillator_Divergence : public Strategy {
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method, float _level = 0.0f, int _shift = 0) {
-    IndicatorBase *_indi = GetIndicator(::Oscillator_Divergence_Type);
+    IndicatorData *_indi = GetIndicator(::Oscillator_Divergence_Type);
     Chart *_chart = trade.GetChart();
     // uint _ishift = _indi.GetShift();
     bool _result = Oscillator_Divergence_Type != STG_OSCILLATOR_DIVERGENCE_TYPE_0_NONE && IsValidEntry(_indi, _shift);
